@@ -1,0 +1,100 @@
+.navbar{
+    background-color: #b0e298;
+    height: 140px;
+
+}
+
+.navbar a{
+    font-size: 25px;
+    margin-top:-28px;
+    margin-right: 20px;
+    color: #19297c;
+    float: right;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a:hover {
+    color: white;
+
+}
+
+.logo img{
+    max-height: 92px;
+    margin: 20px;
+}
+
+.heading {
+    color: #19297c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 200px;
+}
+
+.button {
+    background-color: #b0e298;
+    color:#19297c;
+    border-radius: 16px;
+    padding: 10px 20px;
+    display: inline-block;
+    text-align: center;
+    margin: 8px 0;
+
+}
+
+.input-text {
+    display: flex;
+    justify-content: center;
+    padding: 12px 20px;
+    height: 40px !important; 
+}
+
+.search-container {
+display: flex;
+justify-content: center;
+}
+
+.search-container button {
+    padding: 6px 10px;
+    background: #19297c;
+    color: white;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .threecolumn {
+    float: left;
+    width: 30%;
+    margin-left: 30px;
+    margin-right: 10px;
+  }
+
+  .twocolumn {
+    float: left;
+    width: 45%;
+    margin-left: 30px;
+    margin-right: 10px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  textarea {
+    width: 50%;
+    height: 220px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    background-color: #f8f8f8;
+    resize: none;
+    margin-left: 25%;
+    font-family: Arial, Helvetica, sans-serif;
+  }

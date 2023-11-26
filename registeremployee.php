@@ -8,7 +8,7 @@ if(!(isset($_SESSION["id"])))
 }
 
 if(isset($_POST['submit'])){
-    $response = registerEmployee($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['role'], $_POST['active'], $_POST['password'], $_POST['creatorid']);
+    $response = registerEmployee($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['role'], $_POST['creatorid']);
  }
 
  if(isset($_GET['logout'])){
@@ -97,15 +97,7 @@ if(isset($_POST['submit'])){
                 </select>
             </div>
             <div class="input-text" style= "padding: -10 0; height: 30px !important;">
-            <label class="label">Activity Status</label>
-                <select id="active" name="active" value="<?php echo @$_POST['active']; ?>">
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
-                </select>
-            </div>
-            <div class="input-text">
-                <input type="password" name="password" value="<?php echo @$_POST['password']; ?>" placeholder="Password">
-            </div>
+            
             <div class="input-text">
                <input type="hidden" name="creatorid" value="<?php echo @$_SESSION['id'] ?>" placeholder="<?php echo @$_SESSION['id']; ?>" readonly>
               

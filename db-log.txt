@@ -1,0 +1,2 @@
+MySQL server has gone away | November 24, 2023, 3:50 pm 
+php_network_getaddresses: getaddrinfo failed: nodename nor servname provided, or not known | November 26, 2023, 9:15 pm 

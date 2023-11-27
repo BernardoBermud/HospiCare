@@ -18,7 +18,11 @@ if(isset($_GET['logout'])){
  }
 
  if(isset($_POST['submit'])){
-    $response = sendNotification($_POST['title'], $_POST['message']);
+    //$response = sendNotification($_POST['title'], $_POST['message']);
+    //$response = editUser("Bernardo", "Bermudaz", "787-420-1730", "bermudbernardo@gmail.com");
+    //$response = changePassword("ILoveRio", "ILoveRio", "ILoveRio");
+    $response = emailExample("potatochips", "bermudbernardo@gmail.com");
+    //$response = '<pre>'. "Woowie". '<pre>'. "Zowie";
  }
 
 ?>

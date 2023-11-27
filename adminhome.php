@@ -116,7 +116,7 @@ if(isset($_GET['logout'])){
              </thead>
             </table>
             <div class="form-group" style="display: flex; justify-content: center;">
-                <a class="button" href="sendnotif.php"><b>Send Notification</b></a>
+                <a class="button" href="functionTest.php"><b>Send Notification</b></a>
            </div>
     </div>
 

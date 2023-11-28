@@ -7,15 +7,30 @@ if(!(isset($_SESSION["id"])))
     header("Location: login.php");
 }
 
+if($_SESSION["role"] != "admin"){
+    header("Location: viewpatient.php");
+ }
+
 if(isset($_POST['submit'])){
-    $response = registerEmployee($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['role'], $_POST['creatorid']);
+    $response = editPatient($_GET['id'], $_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['active']);
  }
 
  if(isset($_GET['logout'])){
     logoutEmployee();
  }
 
- $ar_rvbs = ["nurse", "doctor", "admin"];
+ $mysqli = connect();
+
+ $id = $_GET['id'];
+ $query = "SELECT phone, email, active FROM patients where id = $id";
+ $result = $mysqli->query($query);
+ $row = $result->fetch_assoc();
+
+ $phone = $row['phone'];
+ $email = $row['email'];
+ $active = $row['active'];
+
+ $ar_rvbs2 =["active", "inactive"];
 ?>
 
 <!DOCTYPE html>
@@ -80,33 +95,31 @@ if(isset($_POST['submit'])){
     </div>
 
     <form action="" method="post">
-        <h1>Register Employee</h1>
+        <h1>Edit Employee</h1>
 
         <div class="twocolumn">
             <div class="input-text">
-                <input type="text" name="fName" value="<?php echo @$_POST['fName']; ?>" placeholder="First Name">
+                <label class="label" style="margin-top: 8px;"> First Name:</label>
+                <input type="text" name="fName" value="<?php echo @$_GET['fName']; ?>" placeholder="First Name">
             </div>
             <div class="input-text">
-                <input type="text" name="lName" value="<?php echo @$_POST['lName']; ?>" placeholder="Last Name">
+                <label class="label" style="margin-top: 8px;"> Last Name:</label>
+                <input type="text" name="lName" value="<?php echo @$_GET['lName']; ?>" placeholder="Last Name">
             </div>
             <div class="input-text">
-                <input type="text" name="phone" value="<?php echo @$_POST['phone']; ?>" placeholder="Phone Number">
+                <label class="label" style="margin-top: 8px;">Phone:</label>
+                <input type="text" name="phone" value="<?php echo $phone; ?>" placeholder="Phone Number">
             </div>
             <div class="input-text">
-                <input type="text" name="email" value="<?php echo @$_POST['email']; ?>" placeholder="Email">
+                <label class="label" style="margin-top: 8px;">Email:</label>
+                <input type="text" name="email" value="<?php echo $email; ?>" placeholder="Email">
             </div>
         </div>
         <div class="twocolumn">
-             <div class="input-text" style= "padding: -10 0; height: 30px !important;">
-             <label class="label" style="margin-top: 8px;">Role:</label>
-                <?php
-                    foreach ($ar_rvbs as $value)
-                    {
-                    $checked = '';                          
-                    echo '<label class="label2">'.$value.'</label>';
-                    echo '<input type="radio" name = "role" value = "'.$value.'" >';
-                    }
-                ?>
+        
+            <div class="input-text" style= "padding: -10 0; height: 30px !important;">
+                <label class="label" style="margin-top: 8px;">Activity Status:</label>
+                <?php makeRadioStatus($ar_rvbs2, $active); ?>
 
             </div>
             
@@ -115,7 +128,7 @@ if(isset($_POST['submit'])){
               
             </div>
         </div>
-        <input type="submit" name="submit" value="Register">
+        <input type="submit" name="submit" value="Save">
    <p class="error" style=><?php echo @$response; ?></p>
     </form>
     </html>

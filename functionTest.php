@@ -33,6 +33,19 @@ if(isset($_GET['logout'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 
+    <style>
+        input[type=submit]{
+            background-color: #b0e298;
+            color:#19297c;
+            border-radius: 16px;
+            padding: 10px 20px;
+            display: inline-block;
+            text-align: center;
+            margin: 8px 47%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+
 </head>
 
 <body>

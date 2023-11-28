@@ -188,7 +188,7 @@ function changePassword($oldPassword, $newPassword, $newPasswordReenter){
 
 function loginEmployee($email, $password){
     $mysqli = connect();
-    $username = trim($email);
+    $email = trim($email);
     $password = trim($password);
 
     if($email == "" || $password == ""){
@@ -202,7 +202,7 @@ function loginEmployee($email, $password){
         return "Email is not valid";
     }
 
-    $sql = "SELECT id, email, password, role FROM employees WHERE email = ?";
+    $sql = "SELECT id, email, password, role, active FROM employees WHERE email = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -219,6 +219,10 @@ function loginEmployee($email, $password){
     }
     
     else{
+        if ($data["active"] == 0){
+            return "Your account is inactive, contact an admin";
+        }
+
         $_SESSION["email"] = $email;
         $_SESSION["id"] = $data["id"];
         $_SESSION["role"] = $data["role"];
@@ -316,6 +320,8 @@ function editUser($fName, $lName, $phone, $email){
         return 'Invalid phone number format';
     }
 
+    $_SESSION['email'] = $email;
+
     $stmt = $mysqli->prepare("UPDATE employees SET fName=?, lName=?, phone=?, email=? WHERE id=?");
     $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $_SESSION["id"]);
     $stmt->execute();
@@ -362,50 +368,14 @@ function activePatient($patientid){
     }   
 }
 
-function activeEmployee($employeeid){
+function editPatient($patientid, $fName, $lName, $phone, $email, $active){
     $mysqli = connect();
-    $employeeid= trim($employeeid);
-    
-    //Check for current active value of patient
-
-    $query="SELECT * FROM employees WHERE id=$employeeid";
-    $result = $mysqli->query($query);
-    $row = $result->fetch_assoc();
-
-    //In case that user wants to self activate or deactivate.
-    if($row[id] == $_SESSION["id"]){
-        return "Eroor: Unable to self activate or deactivate, please ask for other admin to do so";
-    }
-
-    //In case that someone deleted patient while another is still in the page
-    if(empty($employeeid)){
-        return "Employee id not found";
-    }
-    if($row['active'] == 1){
-        $stmt = $mysqli->prepare("UPDATE employees SET active=0 WHERE id=?");
-    }
-    else{
-        $stmt = $mysqli->prepare("UPDATE employees SET active=1 WHERE id=?");
-    }
-    $stmt->bind_param("s", $employeeid);
-    $stmt->execute();
-    
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
-    }
-   else{
-      return "success";
-    }   
-}
-
-function editEmployee($employeeid, $fName, $lName, $phone, $email, $role){
-    $mysqli = connect();
-    $employeeid = trim($employeeid);
+    $patientid = trim($patientid);
     $fName = trim($fName);
     $lName = trim($lName);
     $phone = trim($phone);
     $email = trim($email);
-    $role = trim($role);
+    $active = trim($active);
 
     $args = func_get_args();
 
@@ -443,18 +413,170 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role){
         return 'Invalid phone number format';
     }
 
-    $stmt = $mysqli->prepare("UPDATE employees SET fName=?, lName=?, phone=?, email=?, role=? WHERE id=?");
-    $stmt->bind_param("ssssss", $fName, $lName, $phone, $email, $role, $employeeid);
-    $stmt->execute();
-    //print($stmt);
-    //exit(-1);
-    
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
-    }
+   //Check for current active value of patient
+
+   $query="SELECT * FROM patients WHERE id=$patientid";
+   $result = $mysqli->query($query);
+   $row = $result->fetch_assoc();
+
+  # Assign label to the chosen status in order to compare to the one currently in database
+   if ($active == "active")
+       $activeval = 1;
+   else 
+       $activeval = 0;
+
+   # To be executed when we want to change from active to inactive
+   if($row['active'] == 1 and $activeval == 0){
+       $stmt = $mysqli->prepare("UPDATE patients SET fName=?, lName=?, phone=?, email=?, active=0 WHERE id=?");
+       $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $patientid);
+       $stmt->execute();
+
+       if($stmt->affected_rows != 1){
+           return "An error occurred. Please try again";
+           }
+           else{
+               return "success";
+           }   
+   }
+
+   # To be executed when we want to change from inactive to active
+   elseif($row['active'] == 0 and $activeval == 1){
+       $stmt = $mysqli->prepare("UPDATE patients SET fName=?, lName=?, phone=?, email=?, active=1 WHERE id=?");
+       $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $patientid);
+       $stmt->execute();
+
+       if($stmt->affected_rows != 1){
+           return "An error occurred. Please try again";
+           }
+           else{
+               return "success";
+           }   
+   }
+
+   # To be executed when there's no status change
    else{
-      return "success";
-    }   
+
+       $stmt = $mysqli->prepare("UPDATE paitents SET fName=?, lName=?, phone=?, email=? WHERE id=?");
+       $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $patientid);
+       $stmt->execute();
+       //print($stmt);
+       //exit(-1);
+       
+       if($stmt->affected_rows != 1){
+       return "An error occurred. Please try again";
+       }
+       else{
+           return "success";
+       }   
+   }
+}
+
+function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $active){
+    $mysqli = connect();
+    $employeeid = trim($employeeid);
+    $fName = trim($fName);
+    $lName = trim($lName);
+    $phone = trim($phone);
+    $email = trim($email);
+    $role = trim($role);
+    $active = trim($active);
+
+    $args = func_get_args();
+
+    //Check for empty Fields
+    foreach ($args as $value) {
+        
+       if(empty($value)){
+          return "All fields are required";
+       }
+    }
+
+    // check for open or closing tag characters to prevent script insertion
+    foreach ($args as $value) {
+        if(preg_match("/([<|>])/", $value)){
+           return "<> characters are not allowed";
+        }
+    }
+
+    //Check that Phone number is written correctly
+        /* INSERT CODE*/
+    $pattern = '/^\d{3}-\d{3}-\d{4}$/';
+
+    // Perform the validation using the preg_match function
+    if (preg_match($pattern, $phone)) {
+        $numbers = explode('-', $phone);
+        $firstNumber = $numbers[0];
+        $secondNumber = $numbers[1];
+        $thirdNumber = $numbers[2];
+    
+        if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
+            return 'Invalid phone number';
+        }
+    }
+    else{
+        return 'Invalid phone number format';
+    }
+
+    if($employeeid == $_SESSION["id"]){
+        return "Error: Unable to self change, please ask for other admin to do so";
+    }
+
+    //Check for current active value of employee
+
+    $query="SELECT * FROM employees WHERE id=$employeeid";
+    $result = $mysqli->query($query);
+    $row = $result->fetch_assoc();
+
+   # Assign label to the chosen status in order to compare to the one currently in database
+    if ($active == "active")
+        $activeval = 1;
+    else 
+        $activeval = 0;
+
+    # To be executed when we want to change from active to inactive
+    if($row['active'] == 1 and $activeval == 0){
+        $stmt = $mysqli->prepare("UPDATE employees SET fName=?, lName=?, phone=?, email=?, role=?, active=0 WHERE id=?");
+        $stmt->bind_param("ssssss", $fName, $lName, $phone, $email, $role, $employeeid);
+        $stmt->execute();
+
+        if($stmt->affected_rows != 1){
+            return "An error occurred. Please try again";
+            }
+            else{
+                return "success";
+            }   
+    }
+
+    # To be executed when we want to change from inactive to active
+    elseif($row['active'] == 0 and $activeval == 1){
+        $stmt = $mysqli->prepare("UPDATE employees SET fName=?, lName=?, phone=?, email=?, role=?, active=1 WHERE id=?");
+        $stmt->bind_param("ssssss", $fName, $lName, $phone, $email, $role, $employeeid);
+        $stmt->execute();
+
+        if($stmt->affected_rows != 1){
+            return "An error occurred. Please try again";
+            }
+            else{
+                return "success";
+            }   
+    }
+
+    # To be executed when there's no status change
+    else{
+
+        $stmt = $mysqli->prepare("UPDATE employees SET fName=?, lName=?, phone=?, email=?, role=? WHERE id=?");
+        $stmt->bind_param("ssssss", $fName, $lName, $phone, $email, $role, $employeeid);
+        $stmt->execute();
+        //print($stmt);
+        //exit(-1);
+        
+        if($stmt->affected_rows != 1){
+        return "An error occurred. Please try again";
+        }
+        else{
+            return "success";
+        }   
+    }
 }
 
 
@@ -576,6 +698,35 @@ function sendEmail($password, $email){
     }
 }
 
+/// Retrieve current employee role from database
+function makeRadioRole($ar_rvbs,$attrval)
+  {
+
+  foreach ($ar_rvbs as $value)
+     {
+      $checked = '';                          
+      echo '<label class="label2">'.$value.'</label>';
+      if ($attrval==$value)                   
+        $checked = "checked";                  
+      echo '<input type="radio" name = "role" value = "'.$value.'" '.$checked.'>';
+     }
+  }
+
+function makeRadioStatus($ar_rvbs2,$attrval)
+{
+    $label = '';
+  foreach ($ar_rvbs2 as $value)
+     {
+      if ($value == "active")
+        $label = 1;
+    else $label = 0;
+      $checked = ''; 
+      echo '<label class="label2">'.$value.'</label>';
+      if ($attrval==$label)                   
+        $checked = "checked";                  
+      echo '<input type="radio" name = "active" value = "'.$value.'" '.$checked.'>';
+     }
+}
 
 function logoutEmployee(){
     session_destroy();

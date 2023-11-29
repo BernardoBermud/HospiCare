@@ -184,7 +184,49 @@ $ar_rvbs2 =["active", "inactive"];
             </div>
             
         </div>
+
         <div="threecolumn">
+        <table cellspacing="0" cellpadding="0"  width="325" margin-top='0'>
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="5px" width="400">
+                        <tr>
+                            <th >Medicine</th>
+                            <th style="padding-right: 35px;">Dosage</th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <div style="width:425px; height:250px; overflow-y:auto;">
+                    <table cellspacing="5" cellpadding="1" width="350" style="margin-left: 8px;">
+                    <?php 
+                        $query="SELECT id, medicine, dosage, frequency FROM prescriptions WHERE patientid=$id"; 
+                        $result = mysqli_query($mysqli,$query);
+                        
+                        //Verificar si hubo error y si hubo imprimirlo
+                        if (!$result) {
+                            die("Invalid Query: " . mysqli_error($mysqli));
+                        }
+                        
+                        // Imprimo la información obtenida de la base de datos
+                        if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                            print "<tr><td style='padding-left: 30px;'>";
+                            print '<a href="viewrecord.php?id='.$row['id'].'&medicine='.$row['medicine'].'&dosage='.$row['dosage'].'&frequency='.$row['frequency'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["medicine"].'</a>';
+                            print "</td><td style='margin-left: 30px;'>";
+                            print '<a href="viewrecord.php?id='.$row['id'].'&medicine='.$row['medicine'].'&dosage='.$row['dosage'].'&frequency='.$row['frequency'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["dosage"].'</a>';
+                            print "</td></tr>";
+                            }
+
+                        }
+                    ?>
+                    </table>  
+                </div>
+                </td>
+            </tr>
+        </table>
         
             <div style=" display: flex; justify-content: center;">
                 <input type="submit" name="addprescription" value="Add Prescription">

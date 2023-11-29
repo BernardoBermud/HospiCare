@@ -75,9 +75,15 @@ if(isset($_GET['employee'])){
                 <td>
                 <div style="width:425px; height:200px; overflow-y:auto;">
                     <table cellspacing="0" cellpadding="1" width="400" style="margin-left: 8px;">
+
                     <?php 
-                        $filtervalues = $_GET['search1'];
-                        $query = "SELECT id, fName, lName, phone FROM patients WHERE CONCAT(id,fName,lName) LIKE '%$filtervalues%' ";
+                        if(isset($_GET['search1'])){
+                            $filtervalues = $_GET['search1'];
+                            $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName) LIKE '%$filtervalues%' ";
+                        }
+                        else{
+                            $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName)";
+                        }
                         $query_run = mysqli_query($mysqli, $query);
 
                         if(mysqli_num_rows($query_run) > 0)
@@ -125,15 +131,6 @@ if(isset($_GET['employee'])){
                     <table cellspacing="0" cellpadding="5px" width="400"  >
                         <tr>
                             <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
                             <th>Role</th>
                             <th>Phone Number</th>
                         </tr>
@@ -144,9 +141,14 @@ if(isset($_GET['employee'])){
                 <td>
                 <div style="width:425px; height:200px; overflow-y:auto;">
                     <table cellspacing="0" cellpadding="1" width="400"  >
-                    <?php 
-                        $filtervalues = $_GET['search2'];
-                        $query = "SELECT id, fName, lName, role, phone FROM employees WHERE CONCAT(fName,lName, role) LIKE '%$filtervalues%' ";
+                        <?php 
+                        if(isset($_GET['search2'])){
+                            $filtervalues = $_GET['search2'];
+                            $query = "SELECT id, fName, lName, role, phone FROM employees WHERE CONCAT(fName,lName, role) LIKE '%$filtervalues%' ";
+                        }
+                        else{
+                            $query = "SELECT id, fName, lName, role, phone FROM employees";
+                        }
                         $query_run = mysqli_query($mysqli, $query);
 
                         if(mysqli_num_rows($query_run) > 0)
@@ -185,7 +187,7 @@ if(isset($_GET['employee'])){
     <div class="threecolumn">
         <form action="" method="GET">
             <div class="search-container" style="text-align: center;">
-                <input type="text" placeholder="Search Notification" name="search3" required value="<?php if(isset($_GET['search3'])){echo $_GET['search3']; } ?>" class="form-control">
+                <input type="text" placeholder="Search Notification" name="search3" value="<?php if(isset($_GET['search3'])){echo $_GET['search3']; } ?>" class="form-control">
                 <button type="submit" class="fa fa-search"></button>
             </div>
         </form>
@@ -206,8 +208,13 @@ if(isset($_GET['employee'])){
                     <div style="width:425px; height:200px; overflow-y:auto;">
                         <table cellspacing="0" cellpadding="1" width="400" style="margin-left: 8px;" >
                             <?php 
-                                $filtervalues = $_GET['search3'];
-                                $query = "SELECT id, sentDate, title, message FROM notifications WHERE CONCAT(id,sentDate,title) LIKE '%$filtervalues%' ";
+
+                                if(isset($_GET['search3'])){
+                                    $filtervalues = $_GET['search3'];
+                                    $query = "SELECT id, sentDate, title, message FROM notifications WHERE CONCAT(id,sentDate,title) LIKE '%$filtervalues%' ";                                }
+                                else{
+                                    $query = "SELECT id, sentDate, title, message FROM notifications WHERE CONCAT(id,sentDate,title)"; 
+                                                               }
                                 $query_run = mysqli_query($mysqli, $query);
 
                                 if(mysqli_num_rows($query_run) > 0)

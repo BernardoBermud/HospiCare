@@ -144,7 +144,7 @@ if(isset($_GET['employee'])){
     <div class="threecolumn">
         <form action="" method="GET">
             <div class="search-container" style="text-align: center;">
-                <input type="text" placeholder="Search Employee" name="search2" required value="<?php if(isset($_GET['search2'])){echo $_GET['search2']; } ?>" class="form-control">
+                <input type="text" placeholder="Search Employee" name="search2" value="<?php if(isset($_GET['search2'])){echo $_GET['search2']; } ?>" class="form-control">
                 <button type="submit" class="fa fa-search"></button>
             </div>
         </form>

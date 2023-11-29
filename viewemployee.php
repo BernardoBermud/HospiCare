@@ -43,16 +43,6 @@ if($_SESSION["role"] == "admin"){
     <link rel="stylesheet" href="style.css">
 
     <style>
-        h1 {
-            color: #19297c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            font-family: Arial, Helvetica, sans-serif;
-            height: 100px;
-        }
-
         h2 {
             color: #19297c;
             display: flex;
@@ -108,7 +98,7 @@ if($_SESSION["role"] == "admin"){
     </div>
 
     <form action="" method="post">
-        <h1>Employee Info</h1>  
+    <label class="heading" ><b>Employee Info</b></label>
 
         <h2>Name: <?php echo @$_GET['fName']. " ". @$_GET['lName']; ?></h2>
         <h2>Phone: <?php echo $phone; ?></h2>

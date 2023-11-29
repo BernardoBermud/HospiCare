@@ -20,7 +20,7 @@ if(isset($_GET['submit'])){
  }
 
  if(isset($_GET['addprescription'])){
-    header("Location: addprescription.php");
+    header("Location: addprescription.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
  }
 
  if(isset($_GET['logout'])){
@@ -36,9 +36,10 @@ if(isset($_GET['submit'])){
 
  $phone = $row['phone'];
  $email = $row['email'];
- $active = $row['active'];
+$active = $row['active'];
 
- $ar_rvbs2 =["active", "inactive"];
+$ar_rvbs2 =["active", "inactive"];
+
 ?>
 
 <!DOCTYPE html>
@@ -48,15 +49,6 @@ if(isset($_GET['submit'])){
     <link rel="stylesheet" href="style.css">
 
     <style>
-        h1 {
-            color: #19297c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            font-family: Arial, Helvetica, sans-serif;
-            height: 200px;
-        }
 
         input[type=submit]{
             background-color: #b0e298;
@@ -90,6 +82,13 @@ if(isset($_GET['submit'])){
             padding-left: 15px;
 
         }
+
+        table {
+    margin-top: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #19297c;
+    padding-left: 5%;
+}
     </style>
 </head>
 
@@ -103,7 +102,7 @@ if(isset($_GET['submit'])){
     </div>
 
     <form action="" method="get">
-        <h1>Edit Patient</h1>
+    <label class="heading" ><b>Edit Patient</b></label>
 
         <div class="threecolumn">
             <div class="input-text">
@@ -124,30 +123,73 @@ if(isset($_GET['submit'])){
                 <label class="label" style="margin-top: 8px;">Email:</label>
                 <input type="text" name="email" value="<?php echo $email; ?>" placeholder="Email">
             </div>
-        </div>
-        <div class="threecolumn">
-        
-            <div class="input-text" style= "padding: -10 0; height: 30px !important;">
+
+             <div class="input-text" style= "padding: -10 0; height: 30px !important;">
                 <label class="label" style="margin-top: 8px;">Activity Status:</label>
                 <?php makeRadioStatus($ar_rvbs2, $active); ?>
 
             </div>
-            
-            <div class="input-text">
-               <input type="hidden" name="creatorid" value="<?php echo @$_SESSION['id'] ?>" placeholder="<?php echo @$_SESSION['id']; ?>" readonly>
+
+            <input type="submit" name="submit" value="Save">
+   <p class="error" style=><?php echo @$response; ?></p>
+        </div>
+        <div class="threecolumn">
+
+            <table cellspacing="0" cellpadding="0"  width="325" margin-top='0'>
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="5px" width="400">
+                        <tr>
+                            <th style="padding-left: 30px;">Date</th>
+                            <th style="padding-left: 50px;">Visit Type</th>
+                            <th style="padding-right: 30px;">Diagnosis</th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <div style="width:425px; height:250px; overflow-y:auto;">
+                    <table cellspacing="5" cellpadding="1" width="350" style="margin-left: 8px;">
+                    <?php 
+                        $query="SELECT id, visitDate, visitType, diagnosis FROM records WHERE patientid=$id"; 
+                        $result = mysqli_query($mysqli,$query);
+                        
+                        //Verificar si hubo error y si hubo imprimirlo
+                        if (!$result) {
+                            die("Invalid Query: " . mysqli_error($mysqli));
+                        }
+                        
+                        // Imprimo la información obtenida de la base de datos
+                        if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                            print "<tr><td >";
+                            print '<a href="viewrecord.php?id='.$row['id'].'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitDate"].'</a>';
+                            print "</td><td style='margin-left: 20px;'>";
+                            print '<a href="viewrecord.php?id='.$row['id'].'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitType"].'</a>';
+                            print "</td><td style='padding-left: 5px;'>";
+                            print '<a href="viewrecord.php?id='.$row['id'].'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["diagnosis"].'</a>';
+                            print "</td></tr>";
+                            }
+
+                        }
+                    ?>
+                    </table>  
+                </div>
+                </td>
+            </tr>
+        </table>
+            <div style=" display: flex; justify-content: center; padding-left: 10px;">
+                <input type="submit" name="addrecord" value="Add Record">
             </div>
             
         </div>
         <div="threecolumn">
-            <div style=" display: flex; justify-content: center;">
-                <input type="submit" name="addrecord" value="Add Record">
-            </div>
+        
             <div style=" display: flex; justify-content: center;">
                 <input type="submit" name="addprescription" value="Add Prescription">
             </div>
             </div>
 
-            <input type="submit" name="submit" value="Save">
-   <p class="error" style=><?php echo @$response; ?></p>
     </form>
     </html>

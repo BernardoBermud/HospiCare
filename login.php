@@ -15,16 +15,6 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="style.css">
 
     <style>
-        h1 {
-    color: #19297c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    font-family: Arial, Helvetica, sans-serif;
-    height: 200px;
-
-}
 input[type=submit]{
     background-color: #b0e298;
     color:#19297c;
@@ -53,7 +43,7 @@ input[type=submit]{
 
     </div>
     <form action="" method="post">
-        <h1>Insert Credentials</h1>
+    <label class="heading" ><b>Insert Credentials</b></label>
         <div class="input-text">
             <input type="text" name="email" value="<?php echo @$_POST['email']; ?>" placeholder="Email">
         </div>

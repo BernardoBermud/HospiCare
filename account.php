@@ -80,7 +80,6 @@ if($_SESSION["role"] != "admin"){
         <a href="adminhome.php"><b>Back</b> </a>        
     </div>
     <label class="heading" ><b>Employee Account</b></label>
-    <div class="twocolumn">
 
     </div>
     <form action="" method="post">

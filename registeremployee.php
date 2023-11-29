@@ -25,16 +25,6 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="style.css">
 
     <style>
-        h1 {
-            color: #19297c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            font-family: Arial, Helvetica, sans-serif;
-            height: 200px;
-        }
-
         input[type=submit]{
             background-color: #b0e298;
             color:#19297c;
@@ -80,7 +70,7 @@ if(isset($_POST['submit'])){
     </div>
 
     <form action="" method="post">
-        <h1>Register Employee</h1>
+    <label class="heading" ><b>Register Employee</b></label>
 
         <div class="twocolumn">
             <div class="input-text">

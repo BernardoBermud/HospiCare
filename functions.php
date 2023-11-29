@@ -576,7 +576,7 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $activ
 }
 
 
-function addRecord($patientid, $visitDate, $diagnosis, $description, $visitType, $insurance, $servicePay, $amountPayed){
+function addRecord($patientid, $visitDate, $diagnosis, $description, $visitType, $insurance, $servicePay, $amountPaid){
     $mysqli = connect();
     $patientid = trim($patientid);
     $visitDate = trim($visitDate);
@@ -585,7 +585,7 @@ function addRecord($patientid, $visitDate, $diagnosis, $description, $visitType,
     $visitType = trim($visitType);
     $insurance = trim($insurance);
     $servicePay = trim($servicePay);
-    $amountPayed = trim($amountPayed);
+    $amountPaid = trim($amountPaid);
 
     $args = func_get_args();
 
@@ -604,8 +604,8 @@ function addRecord($patientid, $visitDate, $diagnosis, $description, $visitType,
         }
     }
 
-    $stmt = $mysqli->prepare("INSERT INTO records (patientid, creatorid, visitDate, diagnosis, description,  visitType, insurance, servicePay, amountPayed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssss", $patientid, $_SESSION['id'], $visitDate, $diagnosis, $description, $visitType, $insurance, $servicePay, $amountPayed);
+    $stmt = $mysqli->prepare("INSERT INTO records (patientid, creatorid, visitDate, diagnosis, description,  visitType, insurance, servicePay, amountPaid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssss", $patientid, $_SESSION['id'], $visitDate, $diagnosis, $description, $visitType, $insurance, $servicePay, $amountPaid);
     $stmt->execute();
     //print($stmt);
     //exit(-1);

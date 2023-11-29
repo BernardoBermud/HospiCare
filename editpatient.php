@@ -11,8 +11,16 @@ if($_SESSION["role"] != "admin"){
     header("Location: viewpatient.php");
  }
 
-if(isset($_POST['submit'])){
-    $response = editPatient($_GET['id'], $_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['active']);
+if(isset($_GET['submit'])){
+    $response = editPatient($_GET['id'], $_GET['fName'], $_GET['lName'], $_GET['phone'], $_GET['email'], $_GET['active']);
+ }
+
+ if(isset($_GET['addrecord'])){
+    header("Location: addrecord.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+ }
+
+ if(isset($_GET['addprescription'])){
+    header("Location: addprescription.php");
  }
 
  if(isset($_GET['logout'])){
@@ -94,12 +102,14 @@ if(isset($_POST['submit'])){
         <a href="adminhome.php"><b>Back</b> </a>
     </div>
 
-    <form action="" method="post">
-        <h1>Edit Employee</h1>
+    <form action="" method="get">
+        <h1>Edit Patient</h1>
 
-        <div class="twocolumn">
+        <div class="threecolumn">
             <div class="input-text">
                 <label class="label" style="margin-top: 8px;"> First Name:</label>
+                <input type="hidden" name="id" value="<?php echo $id; ?>" placeholder="ID">
+
                 <input type="text" name="fName" value="<?php echo @$_GET['fName']; ?>" placeholder="First Name">
             </div>
             <div class="input-text">
@@ -115,7 +125,7 @@ if(isset($_POST['submit'])){
                 <input type="text" name="email" value="<?php echo $email; ?>" placeholder="Email">
             </div>
         </div>
-        <div class="twocolumn">
+        <div class="threecolumn">
         
             <div class="input-text" style= "padding: -10 0; height: 30px !important;">
                 <label class="label" style="margin-top: 8px;">Activity Status:</label>
@@ -125,10 +135,19 @@ if(isset($_POST['submit'])){
             
             <div class="input-text">
                <input type="hidden" name="creatorid" value="<?php echo @$_SESSION['id'] ?>" placeholder="<?php echo @$_SESSION['id']; ?>" readonly>
-              
             </div>
+            
         </div>
-        <input type="submit" name="submit" value="Save">
+        <div="threecolumn">
+            <div style=" display: flex; justify-content: center;">
+                <input type="submit" name="addrecord" value="Add Record">
+            </div>
+            <div style=" display: flex; justify-content: center;">
+                <input type="submit" name="addprescription" value="Add Prescription">
+            </div>
+            </div>
+
+            <input type="submit" name="submit" value="Save">
    <p class="error" style=><?php echo @$response; ?></p>
     </form>
     </html>

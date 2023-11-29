@@ -212,6 +212,10 @@ function loginEmployee($email, $password){
     if($data == NULL){
         return "Wrong username or password";
     }
+    //Checks if user is active in order to use the system
+    if($data[active] == 0){
+        return "Your account has been deactivated, please contact admin for help or information";
+    }
     //print($data["password"]);
     //exit(-1);
     if(password_verify($password, $data["password"]) == FALSE){
@@ -376,24 +380,20 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
     $phone = trim($phone);
     $email = trim($email);
     $active = trim($active);
-
     $args = func_get_args();
 
     //Check for empty Fields
     foreach ($args as $value) {
-        
        if(empty($value)){
           return "All fields are required";
        }
     }
-
     // check for open or closing tag characters to prevent script insertion
     foreach ($args as $value) {
         if(preg_match("/([<|>])/", $value)){
            return "<> characters are not allowed";
         }
     }
-
     //Check that Phone number is written correctly
         /* INSERT CODE*/
     $pattern = '/^\d{3}-\d{3}-\d{4}$/';
@@ -412,7 +412,6 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
     else{
         return 'Invalid phone number format';
     }
-
    //Check for current active value of patient
 
    $query="SELECT * FROM patients WHERE id=$patientid";
@@ -438,7 +437,6 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
                return "success";
            }   
    }
-
    # To be executed when we want to change from inactive to active
    elseif($row['active'] == 0 and $activeval == 1){
        $stmt = $mysqli->prepare("UPDATE patients SET fName=?, lName=?, phone=?, email=?, active=1 WHERE id=?");
@@ -452,11 +450,9 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
                return "success";
            }   
    }
-
    # To be executed when there's no status change
    else{
-
-       $stmt = $mysqli->prepare("UPDATE paitents SET fName=?, lName=?, phone=?, email=? WHERE id=?");
+       $stmt = $mysqli->prepare("UPDATE patients SET fName=?, lName=?, phone=?, email=? WHERE id=?");
        $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $patientid);
        $stmt->execute();
        //print($stmt);

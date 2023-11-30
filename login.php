@@ -55,4 +55,5 @@ input[type=submit]{
     </form>
 
     <!--Code sampled from https://digitalfox-tutorials.com/tutorial.php?title=Coding-a-secure-login-system-with-php-and-mysql-->
+</body>
 </html>

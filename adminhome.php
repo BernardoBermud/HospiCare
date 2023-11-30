@@ -242,6 +242,12 @@ if(isset($_GET['employee'])){
             </tr>
         </table>
         <div class="form-group" style="display: flex; justify-content: center;">
-                <a class="button" href="functionTest.php" style="margin-top: 30px;"><b>Send Notification</b></a>
+                <a class="button" href="sendnotif.php" style="margin-top: 30px;"><b>Send Notification</b></a>
         </div>
     </div>
+</body>
+</html>
+
+<?php
+    $mysqli -> close();
+?>

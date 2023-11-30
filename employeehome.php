@@ -235,6 +235,9 @@ if(isset($_GET['employee'])){
             </tr>
         </table>
     </div>
+</body>
+</html>
+                        
     <?php
         $mysqli -> close();
      ?>

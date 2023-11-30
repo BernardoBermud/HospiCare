@@ -50,3 +50,7 @@
     <div class="txt"><b>Welcome to the Hospicare System!</b></div>
 </body>
 </html>
+
+<?php
+    $mysqli -> close();
+?>

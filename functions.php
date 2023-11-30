@@ -127,6 +127,88 @@ function registerEmployee($fName, $lName, $phone, $email, $role, $creatorid){
     }
 } // end of the registerEmployee function.
 
+function registerPatient($fName, $lName, $phone, $email, $creatorid){
+    $mysqli = connect();
+    // trim white space from beginning and end of every argument
+    $fName = trim($fName);
+    $lName = trim($lName);
+    $phone = trim($phone);
+    $email = trim($email);
+    $creatorid = trim($creatorid);
+    // check all arguments have values
+    $args = func_get_args();
+
+    foreach ($args as $value) {
+       if(empty($value)){
+          return "All fields are required";
+       }
+    }
+
+    // check for open or closing tag characters to prevent script insertion
+    foreach ($args as $value) {
+        if(preg_match("/([<|>])/", $value)){
+           return "<> characters are not allowed";
+        }
+    }
+// CHECK NAME IS STRING
+// CHECK PHONE IS INT
+
+    //Check that Phone number is written correctly
+    $pattern = '/^\d{3}-\d{3}-\d{4}$/';
+
+    // Perform the validation using the preg_match function
+    if (preg_match($pattern, $phone)) {
+        $numbers = explode('-', $phone);
+        $firstNumber = $numbers[0];
+        $secondNumber = $numbers[1];
+        $thirdNumber = $numbers[2];
+    
+        if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
+            return 'Invalid phone number';
+        }
+    }
+    else{
+        return 'Invalid phone number format';
+    }
+     
+     // check email is valid
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return "Email is not valid";
+    }
+     // check if email is already in database
+    $stmt = $mysqli->prepare("SELECT email FROM patients WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+    if($data != NULL){
+        return "Email already exists, please use a different email";
+    }	
+
+   // check if phone is already in database
+   $stmt = $mysqli->prepare("SELECT phone FROM patients WHERE phone = ?");
+   $stmt->bind_param("s", $phone);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $data = $result->fetch_assoc();
+   if($data != NULL){
+      return "Phone number already exists, please use a different phone number";
+    }
+   
+   
+    // insert patient to database
+    $stmt = $mysqli->prepare("INSERT INTO patients(fName, lName, phone, email, creatorid) VALUES(?,?,?,?,?)");
+    $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $creatorid);
+    $stmt->execute();
+    if($stmt->affected_rows != 1){
+      return "An error occurred. Please try again";
+    }
+   else{
+        
+        return "Successfully registered user";
+    }
+} // end of the registerPatient function.
+
 function changePassword($oldPassword, $newPassword, $newPasswordReenter){
     if($newPassword != $newPasswordReenter){
         return "New Passwords don't match";
@@ -255,9 +337,6 @@ function sendNotification($title, $message){
     $mysqli = connect();
     $title = trim($title);
     $message = trim($message);
-    print($title);
-    print($message);
-    print($_SESSION["id"]);
 
     // check all arguments have values
     

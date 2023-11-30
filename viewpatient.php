@@ -231,6 +231,7 @@ $ar_rvbs2 =["active", "inactive"];
             </div>
 
     </form>
+    </body>
     </html>
 
     <?php

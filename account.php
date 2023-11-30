@@ -124,3 +124,8 @@ if($_SESSION["role"] != "admin"){
    <p class="error" style=><?php echo @$response; ?></p>
     </form>
 </body>
+</html>
+
+<?php
+    $mysqli -> close();
+?>

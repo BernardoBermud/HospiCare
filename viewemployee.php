@@ -106,4 +106,9 @@ if($_SESSION["role"] == "admin"){
         <h2>Role: <?php echo $role; ?></h2>
         
     </form>
+    </body>
     </html>
+
+<?php
+    $mysqli -> close();
+?>

@@ -53,4 +53,9 @@ if(isset($_GET['logout'])){
         </div>
     </div>
     </form>
+    </body>
 </html>
+
+<?php
+    $mysqli -> close();
+?>

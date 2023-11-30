@@ -8,14 +8,13 @@ if(!(isset($_SESSION["id"])))
 }
 
 if(isset($_POST['submit'])){
-    $response = registerEmployee($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['role'], $_POST['creatorid']);
+    $response = registerPatient($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['creatorid']);
  }
 
  if(isset($_GET['logout'])){
     logoutEmployee();
  }
 
- $ar_rvbs = ["nurse", "doctor", "admin"];
 ?>
 
 <!DOCTYPE html>
@@ -70,9 +69,9 @@ if(isset($_POST['submit'])){
     </div>
 
     <form action="" method="post">
-    <label class="heading" ><b>Register Employee</b></label>
+    <label class="heading" ><b>Register Patient</b></label>
 
-        <div class="twocolumn">
+        <div style="justify-content: center;">
             <div class="input-text">
                 <input type="text" name="fName" value="<?php echo @$_POST['fName']; ?>" placeholder="First Name">
             </div>
@@ -85,26 +84,12 @@ if(isset($_POST['submit'])){
             <div class="input-text">
                 <input type="text" name="email" value="<?php echo @$_POST['email']; ?>" placeholder="Email">
             </div>
-        </div>
-        <div class="twocolumn">
-             <div class="input-text" style= "padding: -10 0; height: 30px !important;">
-             <label class="label" style="margin-top: 8px;">Role:</label>
-                <?php
-                    foreach ($ar_rvbs as $value)
-                    {
-                    $checked = '';                          
-                    echo '<label class="label2">'.$value.'</label>';
-                    echo '<input type="radio" name = "role" value = "'.$value.'" >';
-                    }
-                ?>
-
-            </div>
+    </div>
             
             <div class="input-text">
                <input type="hidden" name="creatorid" value="<?php echo @$_SESSION['id'] ?>" placeholder="<?php echo @$_SESSION['id']; ?>" readonly>
               
             </div>
-        </div>
         <input type="submit" name="submit" value="Register">
    <p class="error" style=><?php echo @$response; ?></p>
     </form>

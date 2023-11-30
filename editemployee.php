@@ -134,4 +134,9 @@ if(isset($_POST['submit'])){
         <input type="submit" name="submit" value="Save">
    <p class="error" style=><?php echo @$response; ?></p>
     </form>
+    </body>
     </html>
+
+<?php
+    $mysqli -> close();
+?>

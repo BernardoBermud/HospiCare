@@ -102,3 +102,9 @@ if(isset($_GET['logout'])){
         <input type="submit" style="margin-top: 70px;"name="submit" value="Add">
         <p class="error" style=><?php echo @$response; ?></p>
     </form>
+    </body>
+    </html>
+
+    <?php
+        $mysqli -> close();
+    ?>

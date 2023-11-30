@@ -292,7 +292,7 @@ function loginEmployee($email, $password){
     $data = $result->fetch_assoc();
 
     if($data == NULL){
-        return "Wrong username or password";
+        return "This email is not registered";
     }
     //Checks if user is active in order to use the system
     if($data['active'] == 0){

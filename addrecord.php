@@ -20,7 +20,7 @@ if(isset($_GET['logout'])){
 
  if(isset($_POST['submit'])){
     $response = addRecord($_GET['id'], $_POST['visitDate'], $_POST['diagnosis'], $_POST['description'], $_POST['visitType'], $_POST['insurance'], $_POST['servicePay'], $_POST['amountPaid']);
-    header("Location: editpatient.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+    //header("Location: editpatient.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
  }
 
 ?>
@@ -69,7 +69,7 @@ if(isset($_GET['logout'])){
 
         <div class="threecolumn">
             <div class="input-text">
-                <input type="text" name="visitDate" value="<?php echo @$_POST['visitDate']; ?>" placeholder="Visit Date (YYYY-MM-DD)">
+                <input type="date" name="visitDate" value="<?php echo @$_POST['visitDate']; ?>" placeholder="Visit Date (YYYY-MM-DD)">
             </div>
             <div class="input-text">
                 <input type="text" name="diagnosis" value="<?php echo @$_POST['diagnosis']; ?>" placeholder="Diagnosis">

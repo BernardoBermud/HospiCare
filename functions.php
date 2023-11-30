@@ -213,7 +213,7 @@ function loginEmployee($email, $password){
         return "Wrong username or password";
     }
     //Checks if user is active in order to use the system
-    if($data[active] == 0){
+    if($data['active'] == 0){
         return "Your account has been deactivated, please contact admin for help or information";
     }
     //print($data["password"]);

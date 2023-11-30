@@ -94,7 +94,7 @@ if($_SESSION["role"] == "admin"){
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
-        <a href="adminhome.php"><b>Back</b> </a>
+        <a href="employeehome.php"><b>Back</b> </a>
     </div>
 
     <form action="" method="post">

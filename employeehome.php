@@ -75,20 +75,26 @@ if(isset($_GET['employee'])){
                 <td>
                 <div style="width:425px; height:200px; overflow-y:auto;">
                     <table cellspacing="0" cellpadding="1" width="400" style="margin-left: 8px;">
+
                     <?php 
-                        $filtervalues = $_GET['search1'];
-                        $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName) LIKE '%$filtervalues%' ";
+                        if(isset($_GET['search1'])){
+                            $filtervalues = $_GET['search1'];
+                            $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName) LIKE '%$filtervalues%' ";
+                        }
+                        else{
+                            $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName)";
+                        }
                         $query_run = mysqli_query($mysqli, $query);
 
                         if(mysqli_num_rows($query_run) > 0)
                         {
                             while($row = mysqli_fetch_array($query_run,MYSQLI_ASSOC)) {
                                 print "<tr><td>";
-                                print '<a href="editpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["fName"].'</a>';
+                                print '<a href="viewpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["fName"].'</a>';
                                 print " ";
-                                print '<a href="editpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["lName"].'</a>';                                            
+                                print '<a href="viewpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["lName"].'</a>';                                            
                                 print "</td><td>";
-                                print '<a href="editpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["phone"].'</a>';
+                                print '<a href="viewpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["phone"].'</a>';
                                 print "</td></tr>";
                             }
                         }
@@ -108,7 +114,6 @@ if(isset($_GET['employee'])){
         </table>
     </div>
 
-
     <div class="threecolumn">
         <form action="" method="GET">
             <div class="search-container" style="text-align: center;">
@@ -122,15 +127,6 @@ if(isset($_GET['employee'])){
                     <table cellspacing="0" cellpadding="5px" width="400"  >
                         <tr>
                             <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
                             <th>Role</th>
                             <th>Phone Number</th>
                         </tr>
@@ -142,8 +138,13 @@ if(isset($_GET['employee'])){
                 <div style="width:425px; height:200px; overflow-y:auto;">
                     <table cellspacing="0" cellpadding="1" width="400"  >
                     <?php 
-                        $filtervalues = $_GET['search2'];
-                        $query = "SELECT id, fName, lName, role, phone FROM employees WHERE active=1 AND CONCAT(fName,lName, role) LIKE '%$filtervalues%' ";
+                        if(isset($_GET['search2'])){
+                            $filtervalues = $_GET['search2'];
+                            $query = "SELECT id, fName, lName, role, phone FROM employees WHERE CONCAT(fName,lName, role) LIKE '%$filtervalues%' ";
+                        }
+                        else{
+                            $query = "SELECT id, fName, lName, role, phone FROM employees";
+                        }
                         $query_run = mysqli_query($mysqli, $query);
 
                         if(mysqli_num_rows($query_run) > 0)
@@ -179,7 +180,7 @@ if(isset($_GET['employee'])){
     <div class="threecolumn">
         <form action="" method="GET">
             <div class="search-container" style="text-align: center;">
-                <input type="text" placeholder="Search Notification" name="search3" required value="<?php if(isset($_GET['search3'])){echo $_GET['search3']; } ?>" class="form-control">
+                <input type="text" placeholder="Search Notification" name="search3" value="<?php if(isset($_GET['search3'])){echo $_GET['search3']; } ?>" class="form-control">
                 <button type="submit" class="fa fa-search"></button>
             </div>
         </form>
@@ -199,29 +200,34 @@ if(isset($_GET['employee'])){
                 <td>
                     <div style="width:425px; height:200px; overflow-y:auto;">
                         <table cellspacing="0" cellpadding="1" width="400" style="margin-left: 8px;" >
-                            <?php 
-                                $filtervalues = $_GET['search3'];
-                                $query = "SELECT id, sentDate, title, message FROM notifications WHERE CONCAT(id,sentDate,title) LIKE '%$filtervalues%' ";
-                                $query_run = mysqli_query($mysqli, $query);
+                        <?php 
 
-                                if(mysqli_num_rows($query_run) > 0)
-                                {
-                                    while($row = mysqli_fetch_array($query_run,MYSQLI_ASSOC)) {
-                                        print "<tr><td>";
-                                        print '<a href="viewnotif.php?id='.$row['id'].'&sentDate='.$row['sentDate'].'&title='.$row['title'].'&message='.$row['message'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["title"].'</a>';
-                                        print "</td><td>";
-                                        print '<a href="viewnotif.php?id='.$row['id'].'&sentDate='.$row['sentDate'].'&title='.$row['title'].'&message='.$row['message'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["sentDate"].'</a>';
-                                        print "</td></tr>";
-                                    }
+                            if(isset($_GET['search3'])){
+                                $filtervalues = $_GET['search3'];
+                                $query = "SELECT id, sentDate, title, message FROM notifications WHERE CONCAT(id,sentDate,title) LIKE '%$filtervalues%' ";                                }
+                            else{
+                                $query = "SELECT id, sentDate, title, message FROM notifications WHERE CONCAT(id,sentDate,title)"; 
+                                                        }
+                            $query_run = mysqli_query($mysqli, $query);
+
+                            if(mysqli_num_rows($query_run) > 0)
+                            {
+                                while($row = mysqli_fetch_array($query_run,MYSQLI_ASSOC)) {
+                                    print "<tr><td>";
+                                    print '<a href="viewnotif.php?id='.$row['id'].'&sentDate='.$row['sentDate'].'&title='.$row['title'].'&message='.$row['message'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["title"].'</a>';
+                                    print "</td><td>";
+                                    print '<a href="viewnotif.php?id='.$row['id'].'&sentDate='.$row['sentDate'].'&title='.$row['title'].'&message='.$row['message'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["sentDate"].'</a>';
+                                    print "</td></tr>";
                                 }
-                                else
-                                {
-                                    ?>
-                                        <tr>
-                                            <td colspan="4">No Record Found</td>
-                                        </tr>
-                                    <?php
-                                }
+                            }
+                            else
+                            {
+                                ?>
+                                    <tr>
+                                        <td colspan="4">No Record Found</td>
+                                    </tr>
+                                <?php
+                            }
                             ?>
                         </table>  
                     </div>
@@ -229,3 +235,6 @@ if(isset($_GET['employee'])){
             </tr>
         </table>
     </div>
+    <?php
+        $mysqli -> close();
+     ?>

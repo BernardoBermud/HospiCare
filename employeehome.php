@@ -24,7 +24,7 @@ if(isset($_GET['employee'])){
 ?>
 
 <!DOCTYPE html>
-<!-- This is home page for admins-->
+<!-- This is home page for Employees-->
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -77,7 +77,8 @@ if(isset($_GET['employee'])){
                     <table cellspacing="0" cellpadding="1" width="400" style="margin-left: 8px;">
 
                     <?php 
-                        if(isset($_GET['search1'])){
+
+                        if($_GET['search1']){
                             $filtervalues = $_GET['search1'];
                             $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName) LIKE '%$filtervalues%' ";
                         }

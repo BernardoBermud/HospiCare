@@ -2,8 +2,6 @@
 
 require "functions.php";
 
-print($_GET["id"]);
-print("My Id: ". $_SESSION["id"]);
 if(!(isset($_SESSION["id"])))
 {
     header("Location: login.php");
@@ -17,13 +15,13 @@ if($_SESSION["role"] == "nurse" or $_SESSION["role"] == "admin"){
     logoutEmployee();
  }
 if(isset($_GET['addprescription'])){
-    header("Location: addprescription.php?id={$_GET['id']}");
+    header("Location:addprescription.php?patientid={$_GET['patientid']}&recordid={$_GET['recordid']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
 
 }
 
  $mysqli = connect();
 
- $id = $_GET['id'];
+ $id = $_GET['recordid'];
  $patientquery = "SELECT * FROM records WHERE id = $id";
  $result = $mysqli->query($patientquery);
  $row = $result->fetch_assoc();
@@ -102,7 +100,10 @@ if(isset($_GET['addprescription'])){
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
-        <a href="adminhome.php"><b>Back</b> </a>
+        <a href="account.php"><b>Account</b> </a>
+
+        <a href="viewpatient.php?patientid=<?php echo $_GET['patientid'] ?>&recordid=<?php echo $_GET['recordid'] ?>&fName=<?php echo $_GET['fName'] ?>&lName=<?php echo $_GET['lName'] ?>"><b>Back</b> </a>
+    
     </div>
 
     <form action="" method="get">
@@ -117,6 +118,7 @@ if(isset($_GET['addprescription'])){
             <h2>Amount Paid: <?php echo $amountPaid; ?></h2>
             <h2>Description:</h2>
             <form class="input-text"> 
+                
             <textarea readonly rows="10" cols="50">
                 <?php 
                     echo $description; 
@@ -178,7 +180,8 @@ if(isset($_GET['addprescription'])){
         </table>
             <div style=" display: flex; justify-content: center; padding-left: 200px;">
                     <input type="hidden" name="id" value="<?php echo $id; ?>">
-                    <input type="submit" name="addprescription" value="Add Prescription">
+                    <a class="button" href="addprescription.php?patientid=<?php echo $_GET['patientid'] ?>&recordid=<?php echo $_GET['recordid'] ?>&fName=<?php echo $_GET['fName'] ?>&lName=<?php echo $_GET['lName'] ?>" style="margin-top: 30px;"><b>Add Prescription</b></a>
+
             </div>
         </div>
     </form>

@@ -78,7 +78,7 @@ if(isset($_GET['employee'])){
 
                     <?php 
 
-                        if($_GET['search1']){
+                        if(isset($_GET['search1'])){
                             $filtervalues = $_GET['search1'];
                             $query = "SELECT id, fName, lName, phone FROM patients WHERE active=1 AND CONCAT(id,fName,lName) LIKE '%$filtervalues%' ";
                         }
@@ -91,11 +91,11 @@ if(isset($_GET['employee'])){
                         {
                             while($row = mysqli_fetch_array($query_run,MYSQLI_ASSOC)) {
                                 print "<tr><td>";
-                                print '<a href="viewpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["fName"].'</a>';
+                                print '<a href="viewpatient.php?patientid='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["fName"].'</a>';
                                 print " ";
-                                print '<a href="viewpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["lName"].'</a>';                                            
+                                print '<a href="viewpatient.php?patientid='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["lName"].'</a>';                                            
                                 print "</td><td>";
-                                print '<a href="viewpatient.php?id='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["phone"].'</a>';
+                                print '<a href="viewpatient.php?patientid='.$row['id'].'&fName='.$row['fName'].'&lName='.$row['lName'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["phone"].'</a>';
                                 print "</td></tr>";
                             }
                         }

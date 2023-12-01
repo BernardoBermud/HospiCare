@@ -26,7 +26,7 @@ if(isset($_GET['logout'])){
 ?>
 
 <!DOCTYPE html>
-<!-- This is home page for admins-->
+<!-- This is add record page-->
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -58,6 +58,8 @@ if(isset($_GET['logout'])){
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
+        <a href="account.php"><b>Account</b> </a>
+
         <a  href="editpatient.php?id=<?php echo $_GET['id'] ?>&fName=<?php echo $_GET['fName'] ?>&lName=<?php echo $_GET['lName'] ?>"><b>Back</b> </a>
 
     </div>

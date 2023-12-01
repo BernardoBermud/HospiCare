@@ -98,6 +98,8 @@ $ar_rvbs2 =["active", "inactive"];
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
+        <a href="account.php"><b>Account</b> </a>
+
         <a href="adminhome.php"><b>Back</b> </a>
     </div>
 

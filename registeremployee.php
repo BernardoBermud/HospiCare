@@ -8,8 +8,13 @@ if(!(isset($_SESSION["id"])))
 }
 
 if(isset($_POST['submit'])){
+    if(!(isset($_POST['role']))){
+        $response= "All fields are required";
+    }
+    else{
     $response = registerEmployee($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['role'], $_POST['creatorid']);
- }
+    }
+}
 
  if(isset($_GET['logout'])){
     logoutEmployee();
@@ -66,6 +71,8 @@ if(isset($_POST['submit'])){
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
+        <a href="account.php"><b>Account</b> </a>
+
         <a href="adminhome.php"><b>Back</b> </a>
     </div>
 

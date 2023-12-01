@@ -9,7 +9,8 @@ if(!(isset($_SESSION["id"])))
 }
 
 if($_SESSION["role"] == "doctor"){
-    header("Location: viewrecorddoctor.php?id={$_GET['id']}");
+    header("Location: viewrecorddoctor.php?patientid={$_GET['patientid']}&recordid={$_GET['recordid']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+
  }
 
  if(isset($_GET['logout'])){
@@ -18,8 +19,8 @@ if($_SESSION["role"] == "doctor"){
 
  $mysqli = connect();
 
- $id = $_GET['id'];
- $patientquery = "SELECT * FROM records WHERE id = $id";
+ $recordid = $_GET['recordid'];
+ $patientquery = "SELECT * FROM records WHERE id = $recordid";
  $result = $mysqli->query($patientquery);
  $row = $result->fetch_assoc();
 
@@ -97,7 +98,8 @@ if($_SESSION["role"] == "doctor"){
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
-        <a href="adminhome.php"><b>Back</b> </a>
+        <a href="account.php"><b>Account</b> </a>
+        <a href="viewpatient.php?patientid=<?php echo $_GET['patientid'] ?>&recordid=<?php echo $_GET['recordid'] ?>&fName=<?php echo $_GET['fName'] ?>&lName=<?php echo $_GET['lName'] ?>"><b>Back</b> </a>
     </div>
 
     <form action="" method="get">
@@ -142,7 +144,7 @@ if($_SESSION["role"] == "doctor"){
                     <table cellspacing="5" cellpadding="1" width="600" style="margin-left: 8px;">
                     <?php 
                     
-                        $query="SELECT * FROM prescriptions WHERE recordid=$id"; 
+                        $query="SELECT * FROM prescriptions WHERE recordid=$recordid"; 
                         $result = mysqli_query($mysqli,$query);
                         
                         //Verificar si hubo error y si hubo imprimirlo

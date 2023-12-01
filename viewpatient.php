@@ -16,15 +16,16 @@ if($_SESSION["role"] == "admin"){
  }
 
  $mysqli = connect();
-
- $id = $_GET['id'];
- $query = "SELECT phone, email, active FROM patients where id = $id";
+ $patientid = $_GET['patientid'];
+ $query = "SELECT * FROM patients where id = $patientid";
  $result = $mysqli->query($query);
  $row = $result->fetch_assoc();
 
  $phone = $row['phone'];
  $email = $row['email'];
 $active = $row['active'];
+$fName = $row['fName'];
+$lName = $row['lName'];
 
 ?>
 
@@ -92,13 +93,14 @@ $active = $row['active'];
             <img src="hospicarelogo.png">
         </div>
         <a href="?logout"><b>Log out</b> </a>
-        <a href="adminhome.php"><b>Back</b> </a>
+        <a href="account.php"><b>Account</b> </a>
+
+        <a href="employeehome.php"><b>Back</b> </a>
     </div>
 
     <form action="" method="get">
-    <label class="heading" ><b>Edit Patient</b></label>
+    <label class="heading" ><b>Patient Info</b></label>
         <div class="threecolumn">
-            <label class="heading" ><b>Employee Info</b></label>
             <h2>Name: <?php echo @$_GET['fName']. " ". @$_GET['lName']; ?></h2>
             <h2>Phone: <?php echo $phone; ?></h2>
             <h2>Email: <?php echo $email; ?></h2>
@@ -122,7 +124,7 @@ $active = $row['active'];
                 <div style="width:425px; height:250px; overflow-y:auto;">
                     <table cellspacing="5" cellpadding="1" width="350" style="margin-left: 8px;">
                     <?php 
-                        $query="SELECT id, visitDate, visitType, diagnosis FROM records WHERE patientid=$id"; 
+                        $query="SELECT id, visitDate, visitType, diagnosis FROM records WHERE patientid=$patientid"; 
                         $result = mysqli_query($mysqli,$query);
                         
                         //Verificar si hubo error y si hubo imprimirlo
@@ -134,11 +136,11 @@ $active = $row['active'];
                         if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                             print "<tr><td >";
-                            print '<a href="viewrecord.php?id='.$row['id'].'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitDate"].'</a>';
+                            print '<a href="viewrecord.php?patientid='.$patientid.'&recordid='.$row['id'].'&fName='.$fName.'&lName='.$lName.'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitDate"].'</a>';
                             print "</td><td style='margin-left: 20px;'>";
-                            print '<a href="viewrecord.php?id='.$row['id'].'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitType"].'</a>';
+                            print '<a href="viewrecord.php?patientid='.$patientid.'&recordid='.$row['id'].'&fName='.$fName.'&lName='.$lName.'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitType"].'</a>';
                             print "</td><td style='padding-left: 5px;'>";
-                            print '<a href="viewrecord.php?id='.$row['id'].'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["diagnosis"].'</a>';
+                            print '<a href="viewrecord.php?patientid='.$patientid.'&recordid='.$row['id'].'&fName='.$fName.'&lName='.$lName.'&visitDate='.$row['visitDate'].'&visitType='.$row['visitType'].'&diagnosis='.$row['diagnosis'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["diagnosis"].'</a>';
                             print "</td></tr>";
                             }
 

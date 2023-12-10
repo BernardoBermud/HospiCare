@@ -1,19 +1,5 @@
 <?php 
     include("functions.php");
-    $mysqli = connect();
-    $query="SELECT * FROM employees";
-	$result = mysqli_query($mysqli,$query);
-    while($row = mysqli_fetch_assoc($result))
-	{
-        //Columnas de cada fila
-        print ($row['id'] . " ");
-		print ($row['fName'] . " ");
-        print ($row['lName'] . " ");
-        print ($row['phone'] ." ");
-        print ($row['email'] ." ");
-        print ($row['role'] ."\n");
-	}
-    print("Hellooooo");
 ?>
 
 
@@ -43,14 +29,10 @@
         <div class="logo">
             <img src="hospicarelogo.png">
         </div>
-        <a href="login.php"><b>Log In</b> </a>
+        <a href="login.php"><b>Log in</b> </a>
 
     </div>
 
     <div class="txt"><b>Welcome to the Hospicare System!</b></div>
 </body>
 </html>
-
-<?php
-    $mysqli -> close();
-?>

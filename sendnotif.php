@@ -19,6 +19,7 @@ if(isset($_GET['logout'])){
 
  if(isset($_POST['submit'])){
     $response = sendNotification($_POST['title'], $_POST['message']);
+    header("Location: adminhome.php");
  }
 
 ?>

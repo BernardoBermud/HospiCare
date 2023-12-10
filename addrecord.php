@@ -20,7 +20,7 @@ if(isset($_GET['logout'])){
 
  if(isset($_POST['submit'])){
     $response = addRecord($_GET['id'], $_POST['visitDate'], $_POST['diagnosis'], $_POST['description'], $_POST['visitType'], $_POST['insurance'], $_POST['servicePay'], $_POST['amountPaid']);
-    //header("Location: editpatient.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+    header("Location: editpatient.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
  }
 
 ?>

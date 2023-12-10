@@ -18,7 +18,8 @@ if($_SESSION["role"] == "nurse" or $_SESSION["role"] == "admin"){
 
  if(isset($_POST['submit'])){
     $response = addPrescription($_GET['patientid'], $_GET['recordid'], $_POST['medicine'], $_POST['dosage'], $_POST['frequency'], $_POST['description'], $_POST['startDate'], $_POST['endDate']);
-    }
+    header("Location: viewrecorddoctor.php?patientid={$_GET['patientid']}&recordid={$_GET['recordid']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+}
 
 ?>
 

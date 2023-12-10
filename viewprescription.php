@@ -45,7 +45,7 @@ if(!(isset($_SESSION["id"])))
         }
         textarea {
             font-size: 18px; /* Adjust the font size as needed */
-            height: 200px; /* Adjust the height as needed */
+            height: 100px; /* Adjust the height as needed */
             overflow: auto; /* Enable scrollbars if content exceeds the height */
         }
 
@@ -103,7 +103,7 @@ if(!(isset($_SESSION["id"])))
         <h2>Start Date: <?php echo $startDate; ?></h2>
         <h2>End Date: <?php echo $endDate; ?></h2>
         <h2>Frequency:</h2>
-        <textarea readonly rows="10" cols="50">
+        <textarea readonly rows="10" cols="50" style="height: 50px;">
             <?php 
                 echo $frequency; 
             ?>

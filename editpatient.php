@@ -166,11 +166,11 @@ $ar_rvbs2 =["active", "inactive"];
                         if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                             print "<tr><td >";
-                            print '<a href="viewrecord.php?id='.$row['id'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitDate"].'</a>';
+                            print '<a href="viewrecord.php?recordid='.$row['id'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitDate"].'</a>';
                             print "</td><td style='margin-left: 20px;'>";
-                            print '<a href="viewrecord.php?id='.$row['id'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitType"].'</a>';
+                            print '<a href="viewrecord.php?recordid='.$row['id'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["visitType"].'</a>';
                             print "</td><td style='padding-left: 5px;'>";
-                            print '<a href="viewrecord.php?id='.$row['id'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["diagnosis"].'</a>';
+                            print '<a href="viewrecord.php?recordid='.$row['id'].'" class="btn btn-primary btn-sm" role="button" aria-pressed="true">'.$row["diagnosis"].'</a>';
                             print "</td></tr>";
                             }
                         }

@@ -119,3 +119,13 @@ justify-content: center;
   color: #19297c;
 
 }
+
+h2 {
+  color: #19297c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 30px;
+}

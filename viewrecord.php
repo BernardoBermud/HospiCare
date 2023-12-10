@@ -99,7 +99,8 @@ if($_SESSION["role"] == "doctor"){
         </div>
         <a href="?logout"><b>Log out</b> </a>
         <a href="account.php"><b>Account</b> </a>
-        <a href="viewpatient.php?patientid=<?php echo $_GET['patientid'] ?>&recordid=<?php echo $_GET['recordid'] ?>&fName=<?php echo $_GET['fName'] ?>&lName=<?php echo $_GET['lName'] ?>"><b>Back</b> </a>
+        <a href="adminhome.php"><b>Back</b></a>
+       <!--- <a href="viewpatient.php?patientid=<?php/// echo $_GET['patientid'] ?>&recordid=<?php ///echo $_GET['recordid'] ?>&fName=<?php/// echo $_GET['fName'] ?>&lName=<?php/// echo $_GET['lName'] ?>"><b>Back</b> </a> --->
     </div>
 
     <form action="" method="get">

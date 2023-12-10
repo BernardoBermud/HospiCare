@@ -27,6 +27,16 @@ if(isset($_GET['logout'])){
         height: 200px; /* Adjust the height as needed */
         overflow: auto; /* Enable scrollbars if content exceeds the height */
         }
+
+        h2 {
+            color: #19297c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            height: 30px;
+        }
     </style>
 
 </head>
@@ -45,6 +55,8 @@ if(isset($_GET['logout'])){
     <form action="" method="post">
     <div class="mb-3">
         <label class="heading" ><b>Notification: <?php echo @$_GET['title']; ?></b></label>
+        <h2><?php echo @$_GET['sentDate']; ?></h2>
+
         <form class="input-text"> 
         <textarea readonly rows="10" cols="50">
             <?php 

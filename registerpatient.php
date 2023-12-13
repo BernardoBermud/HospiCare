@@ -9,7 +9,7 @@ if(!(isset($_SESSION["id"])))
 
 if(isset($_POST['submit'])){
     $response = registerPatient($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['creatorid']);
-    header("Location: adminhome.php");
+    if($response == "success") header("Location: adminhome.php");
 
  }
 
@@ -39,7 +39,7 @@ if(isset($_POST['submit'])){
         .error{
             text-align:center;
             font-family: Arial, Helvetica, sans-serif;
-            color: #19297c;
+            color: #FF0000;
 
         }
 

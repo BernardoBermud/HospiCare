@@ -63,11 +63,11 @@ function registerEmployee($fName, $lName, $phone, $email, $role, $creatorid){
         $thirdNumber = $numbers[2];
     
         if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
-            return 'Invalid phone number';
+            return 'Invalid phone number format: XXX-XXX-XXXX';
         }
     }
     else{
-        return 'Invalid phone number format';
+        return 'Invalid phone number format: XXX-XXX-XXXX';
     }
      
      // check email is valid
@@ -109,10 +109,10 @@ function registerEmployee($fName, $lName, $phone, $email, $role, $creatorid){
     $stmt = $mysqli->prepare("INSERT INTO employees(fName, lName, phone, email, role, password, creatorid) VALUES(?,?,?,?,?,?,?)");
     $stmt->bind_param("sssssss", $fName, $lName, $phone, $email, $role, $hashed_password, $creatorid);
     $stmt->execute();
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
-   else{
+    else{
         //Sending Email with username and password process
         $sent = sendEmail($password, $email);
         if(!$sent){
@@ -122,7 +122,7 @@ function registerEmployee($fName, $lName, $phone, $email, $role, $creatorid){
             return "Error Trying to send Email to user, Try again";
         }
         else{
-            return "Successfully registered user";
+            return "success";
         }
     }
 } // end of the registerEmployee function.
@@ -164,11 +164,11 @@ function registerPatient($fName, $lName, $phone, $email, $creatorid){
         $thirdNumber = $numbers[2];
     
         if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
-            return 'Invalid phone number';
+            return 'Invalid phone number format: XXX-XXX-XXXX';
         }
     }
     else{
-        return 'Invalid phone number format';
+        return 'Invalid phone number format: XXX-XXX-XXXX';
     }
      
      // check email is valid
@@ -200,12 +200,12 @@ function registerPatient($fName, $lName, $phone, $email, $creatorid){
     $stmt = $mysqli->prepare("INSERT INTO patients(fName, lName, phone, email, creatorid) VALUES(?,?,?,?,?)");
     $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $creatorid);
     $stmt->execute();
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
-   else{
+    else{
         
-        return "Successfully registered user";
+        return "success";
     }
 } // end of the registerPatient function.
 
@@ -257,8 +257,8 @@ function changePassword($oldPassword, $newPassword, $newPasswordReenter){
         $stmt->bind_param("ss", $hashed_password, $_SESSION['id']);
         $stmt->execute();
         
-        if($stmt->affected_rows != 1){
-            return "An error occurred. Please try again";
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
         }
         else{
             return "Your password has been successfully changed";
@@ -353,10 +353,10 @@ function sendNotification($title, $message){
     $stmt->bind_param("sss", $_SESSION["id"], $title, $message);
     $stmt->execute();
     
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
-   else{
+    else{
       return "success";
     }
 }
@@ -396,11 +396,11 @@ function editUser($fName, $lName, $phone, $email){
         $thirdNumber = $numbers[2];
     
         if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
-            return 'Invalid phone number';
+            return 'Invalid phone number format: XXX-XXX-XXXX';
         }
     }
     else{
-        return 'Invalid phone number format';
+        return 'Invalid phone number format: XXX-XXX-XXXX';
     }
 
     $_SESSION['email'] = $email;
@@ -411,11 +411,16 @@ function editUser($fName, $lName, $phone, $email){
     //print($stmt);
     //exit(-1);
     
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
-   else{
-      return "success";
+    else{
+        if($stmt->affected_rows != 1){
+            return;
+        }
+        else{
+            return "success";
+        }
     }   
 }
 
@@ -443,10 +448,10 @@ function activePatient($patientid){
     $stmt->execute();
     print(stmt);
     
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
-   else{
+    else{
       return "success";
     }   
 }
@@ -474,8 +479,12 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
         }
     }
     //Check that Phone number is written correctly
-        /* INSERT CODE*/
     $pattern = '/^\d{3}-\d{3}-\d{4}$/';
+
+    // Email Validation.
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return "Email is not valid";
+    }
 
     // Perform the validation using the preg_match function
     if (preg_match($pattern, $phone)) {
@@ -485,11 +494,11 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
         $thirdNumber = $numbers[2];
     
         if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
-            return 'Invalid phone number';
+            return 'Invalid phone number format: XXX-XXX-XXXX';
         }
     }
     else{
-        return 'Invalid phone number format';
+        return 'Invalid phone number format: XXX-XXX-XXXX';
     }
    //Check for current active value of patient
 
@@ -509,12 +518,17 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
        $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $patientid);
        $stmt->execute();
 
-       if($stmt->affected_rows != 1){
-           return "An error occurred. Please try again";
-           }
-           else{
-               return "success";
-           }   
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
+        }
+        else{
+            if($stmt->affected_rows != 1){
+                return;
+            }
+            else{
+                return "success";
+            }
+        }   
    }
    # To be executed when we want to change from inactive to active
    elseif($row['active'] == 0 and $activeval == 1){
@@ -522,12 +536,17 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
        $stmt->bind_param("sssss", $fName, $lName, $phone, $email, $patientid);
        $stmt->execute();
 
-       if($stmt->affected_rows != 1){
-           return "An error occurred. Please try again";
-           }
-           else{
-               return "success";
-           }   
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
+        }
+        else{
+            if($stmt->affected_rows != 1){
+                return;
+            }
+            else{
+                return "success";
+            }
+        }   
    }
    # To be executed when there's no status change
    else{
@@ -537,11 +556,16 @@ function editPatient($patientid, $fName, $lName, $phone, $email, $active){
        //print($stmt);
        //exit(-1);
        
-       if($stmt->affected_rows != 1){
-       return "An error occurred. Please try again";
-       }
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
+        }
        else{
-           return "success";
+        if($stmt->affected_rows != 1){
+            return;
+        }
+        else{
+            return "success";
+        }
        }   
    }
 }
@@ -566,6 +590,11 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $activ
        }
     }
 
+    // Email Validation.
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return "Email is not valid";
+    }
+
     // check for open or closing tag characters to prevent script insertion
     foreach ($args as $value) {
         if(preg_match("/([<|>])/", $value)){
@@ -585,11 +614,11 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $activ
         $thirdNumber = $numbers[2];
     
         if (!is_numeric($firstNumber) && !is_numeric($secondNumber) && !is_numeric($thirdNumber)) {
-            return 'Invalid phone number';
+            return 'Invalid phone number format: XXX-XXX-XXXX';
         }
     }
     else{
-        return 'Invalid phone number format';
+        return 'Invalid phone number format: XXX-XXX-XXXX';
     }
 
     if($employeeid == $_SESSION["id"]){
@@ -613,13 +642,18 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $activ
         $stmt = $mysqli->prepare("UPDATE employees SET fName=?, lName=?, phone=?, email=?, role=?, active=0 WHERE id=?");
         $stmt->bind_param("ssssss", $fName, $lName, $phone, $email, $role, $employeeid);
         $stmt->execute();
-
-        if($stmt->affected_rows != 1){
-            return "An error occurred. Please try again";
+        
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
+        } 
+        else{
+            if($stmt->affected_rows != 1){
+                return;
             }
             else{
                 return "success";
-            }   
+            }
+        }
     }
 
     # To be executed when we want to change from inactive to active
@@ -628,12 +662,17 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $activ
         $stmt->bind_param("ssssss", $fName, $lName, $phone, $email, $role, $employeeid);
         $stmt->execute();
 
-        if($stmt->affected_rows != 1){
-            return "An error occurred. Please try again";
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
+        } 
+        else{
+            if($stmt->affected_rows != 1){
+                return;
             }
             else{
                 return "success";
-            }   
+            }
+        }  
     }
 
     # To be executed when there's no status change
@@ -645,12 +684,17 @@ function editEmployee($employeeid, $fName, $lName, $phone, $email, $role, $activ
         //print($stmt);
         //exit(-1);
         
-        if($stmt->affected_rows != 1){
-        return "An error occurred. Please try again";
-        }
+        if ($stmt->errno){
+            return "Error: " . $stmt->error;
+        } 
         else{
-            return "success";
-        }   
+            if($stmt->affected_rows != 1){
+                return;
+            }
+            else{
+                return "success";
+            }
+        } 
     }
 }
 
@@ -689,8 +733,8 @@ function addRecord($patientid, $visitDate, $diagnosis, $description, $visitType,
     //print($stmt);
     //exit(-1);
     
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
    else{
       return "success";
@@ -734,8 +778,8 @@ function addPrescription($patientid, $recordid, $medicine, $dosage, $frequency, 
     //print($stmt);
     //exit(-1);
     
-    if($stmt->affected_rows != 1){
-      return "An error occurred. Please try again";
+    if ($stmt->errno){
+        return "Error: " . $stmt->error;
     }
    else{
       return "success";

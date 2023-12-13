@@ -18,7 +18,7 @@ if($_SESSION["role"] == "nurse" or $_SESSION["role"] == "admin"){
 
  if(isset($_POST['submit'])){
     $response = addPrescription($_GET['patientid'], $_GET['recordid'], $_POST['medicine'], $_POST['dosage'], $_POST['frequency'], $_POST['description'], $_POST['startDate'], $_POST['endDate']);
-    header("Location: viewrecorddoctor.php?patientid={$_GET['patientid']}&recordid={$_GET['recordid']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+    if($response == "success") header("Location: viewrecorddoctor.php?patientid={$_GET['patientid']}&recordid={$_GET['recordid']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
 }
 
 ?>
@@ -46,6 +46,13 @@ if($_SESSION["role"] == "nurse" or $_SESSION["role"] == "admin"){
             display: inline-block;
             text-align: center;
             margin: 8px 47%;
+        }
+
+        .error{
+            text-align:center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #FF0000;
+
         }
         </style>
 </head>
@@ -86,11 +93,11 @@ if($_SESSION["role"] == "nurse" or $_SESSION["role"] == "admin"){
 
         <div class="threecolumn">
             <div class="input-text">
-                <input type="text" name="startDate" value="<?php echo @$_POST['startDate']; ?>" placeholder="Start Date (YYYY-MM-DD)">
+                <input type="date" name="startDate" value="<?php echo @$_POST['startDate']; ?>" placeholder="Start Date (YYYY-MM-DD)">
             </div>
 
             <div class="input-text">
-                <input type="text" name="endDate" value="<?php echo @$_POST['endDate']; ?>" placeholder="End Date (YYYY-MM-DD)">
+                <input type="date" name="endDate" value="<?php echo @$_POST['endDate']; ?>" placeholder="End Date (YYYY-MM-DD)">
             </div>
         </div>
 

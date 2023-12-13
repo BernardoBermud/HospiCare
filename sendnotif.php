@@ -19,7 +19,7 @@ if(isset($_GET['logout'])){
 
  if(isset($_POST['submit'])){
     $response = sendNotification($_POST['title'], $_POST['message']);
-    header("Location: adminhome.php");
+    if($response == "success") header("Location: adminhome.php");
  }
 
 ?>
@@ -44,7 +44,7 @@ if(isset($_GET['logout'])){
         .error{
             text-align:center;
             font-family: Arial, Helvetica, sans-serif;
-            color: #19297c;
+            color: #FF0000;
 
         }
     </style>

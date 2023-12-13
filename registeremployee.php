@@ -13,7 +13,7 @@ if(isset($_POST['submit'])){
     }
     else{
     $response = registerEmployee($_POST['fName'], $_POST['lName'], $_POST['phone'], $_POST['email'], $_POST['role'], $_POST['creatorid']);
-    header("Location: adminhome.php");
+    if($response == "success") header("Location: adminhome.php");
     }
 }
 
@@ -44,7 +44,7 @@ if(isset($_POST['submit'])){
         .error{
             text-align:center;
             font-family: Arial, Helvetica, sans-serif;
-            color: #19297c;
+            color: #FF0000;
 
         }
 

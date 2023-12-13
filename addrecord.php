@@ -20,7 +20,7 @@ if(isset($_GET['logout'])){
 
  if(isset($_POST['submit'])){
     $response = addRecord($_GET['id'], $_POST['visitDate'], $_POST['diagnosis'], $_POST['description'], $_POST['visitType'], $_POST['insurance'], $_POST['servicePay'], $_POST['amountPaid']);
-    header("Location: editpatient.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
+    if($response == "success") header("Location: editpatient.php?id={$_GET['id']}&fName={$_GET['fName']}&lName={$_GET['lName']}");
  }
 
 ?>
@@ -48,6 +48,13 @@ if(isset($_GET['logout'])){
             display: inline-block;
             text-align: center;
             margin: 8px 47%;
+        }
+
+        .error{
+            text-align:center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #FF0000;
+
         }
         </style>
 </head>
@@ -106,7 +113,8 @@ if(isset($_GET['logout'])){
     </form>
     </body>
     </html>
-
+<!--
     <?php
-        $mysqli -> close();
+        //$mysqli -> close();
     ?>
+    -->

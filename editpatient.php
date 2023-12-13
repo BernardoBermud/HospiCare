@@ -60,10 +60,16 @@ $ar_rvbs2 =["active", "inactive"];
             margin: 8px 47%;
         }
 
+        .success-text {
+            text-align:center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: green;
+        }
+
         .error{
             text-align:center;
             font-family: Arial, Helvetica, sans-serif;
-            color: #19297c;
+            color: #FF0000;
 
         }
 
@@ -133,7 +139,9 @@ $ar_rvbs2 =["active", "inactive"];
             </div>
 
             <input type="submit" name="submit" value="Save">
-   <p class="error" style=><?php echo @$response; ?></p>
+        <p class="<?php echo ($response == 'success') ? 'success-text' : 'error'; ?>">
+            <?php echo $response; ?>
+        </p>
         </div>
         <div class="threecolumn">
 

@@ -378,6 +378,11 @@ function editUser($fName, $lName, $phone, $email){
        }
     }
 
+    // Email Validation.
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return "Email is not valid";
+    }
+
     // check for open or closing tag characters to prevent script insertion
     foreach ($args as $value) {
         if(preg_match("/([<|>])/", $value)){
